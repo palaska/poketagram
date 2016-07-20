@@ -117,6 +117,33 @@ exports.mine = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets posts of the people followed by a user
+exports.following = function(req, res) {
+  const q = ut.queryBuilder({ req, defaultCount: 20 });
+  const sort = q.sort ? q.sort : '-created_at';
+
+  if (!req.user.following) req.user.following = [];
+
+  if (!q.query.$and) { q.query.$and = []; }
+  q.query.$and.push({ by: { $in: req.user.following } });
+
+  Post.find(q.query)
+    .sort(sort)
+    .skip(q.skip)
+    .limit(q.count)
+    .populate('image')
+    .populate('by')
+    .populate('liked_by')
+    .execAsync()
+    .then(items => {
+      Post.countAsync(q.query)
+        .then(found =>
+          res.status(200).send({ count: q.count, found, page: q.page, items })
+        ).catch(handleError(res));
+    }).catch(handleError(res));
+  
+};
+
 // Creates a new Post in the DB
 exports.create = function(req, res) {
   let model = req.body;

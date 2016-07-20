@@ -1,14 +1,12 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+const MediaSchema = require('../media/media.model').schema;
 var Schema = mongoose.Schema;
 
 var PostSchema = new Schema({
   text: String,
-  image: {
-  	ref: 'Media',
-  	type: Schema.ObjectId
-  },
+  image: MediaSchema,
   by: {
   	ref: 'User',
   	type: Schema.ObjectId

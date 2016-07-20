@@ -90,6 +90,7 @@ var PostSchema = new Schema({
 
  - GET: '/api/posts/' : Get all posts
  - GET: '/api/posts/mine', auth.isAuthenticated() : Get posts made by self
+ - GET: '/api/posts/following', auth.isAuthenticated() : Get posts of the people who
  - GET: '/api/posts/:id' : Get a specified post
  
  - POST: '/api/posts/', auth.isAuthenticated() : Create a new post
