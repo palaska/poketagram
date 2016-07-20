@@ -32,7 +32,9 @@ var UserSchema = new Schema({
   username: String,
   given_name: String,
   family_name: String,
-  avatar: MediaSchema,
+  avatar: {
+  	url: 'http://someurltoimage.com/image.jpg'
+  },
   email: {
     type: String,
     lowercase: true
@@ -60,10 +62,10 @@ var UserSchema = new Schema({
 
  - POST: '/api/users' : Create a new user
 
- - PUT: '/me', auth.isAuthenticated(): Update self info
- - PUT: '/:id/password', auth.isAuthenticated(): Change password
+ - PUT: '/api/users/me', auth.isAuthenticated(): Update self info
+ - PUT: '/api/users/:id/password', auth.isAuthenticated(): Change password
 
- - DELETE: '/:id', auth.hasRole('admin'): Delete a user
+ - DELETE: '/api/users/:id', auth.hasRole('admin'): Delete a user
 
 
 #### Post
@@ -72,8 +74,7 @@ var UserSchema = new Schema({
 var PostSchema = new Schema({
   text: String,
   image: {
-  	ref: 'Media',
-  	type: Schema.ObjectId
+  	url: 'http://someurltoimage.com/image.jpg'
   },
   by: {
   	ref: 'User',
@@ -87,16 +88,16 @@ var PostSchema = new Schema({
 });
 ```
 
- - GET: '/' : Get all posts
- - GET: '/mine', auth.isAuthenticated() : Get posts made by self
- - GET: '/:id' : Get a specified post
+ - GET: '/api/posts/' : Get all posts
+ - GET: '/api/posts/mine', auth.isAuthenticated() : Get posts made by self
+ - GET: '/api/posts/:id' : Get a specified post
  
- - POST: '/', auth.isAuthenticated() : Create a new post
- - POST: '/like/:id', auth.isAuthenticated(): Like/dislike a specified post
+ - POST: '/api/posts/', auth.isAuthenticated() : Create a new post
+ - POST: '/api/posts/like/:id', auth.isAuthenticated(): Like/dislike a specified post
  
- - PUT: '/:id': Update a specified post
+ - PUT: '/api/posts/:id': Update a specified post
  
- - DELETE: '/:id' : Delete a specified post
+ - DELETE: '/api/posts/:id' : Delete a specified post
 
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.0.0-rc8.
