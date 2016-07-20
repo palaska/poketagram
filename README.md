@@ -26,30 +26,77 @@ This page should include that specific user's info and posts.
 API Usage
 
 #### User
-GET: '/api/users', auth.hasRole('admin'): Get all users
-GET: '/api/users/me', auth.isAuthenticated(): Get self info
-GET: '/api/users/:id', auth.isAuthenticated(): Get a specified user info
 
-POST: '/api/users' : Create a new user
+```javascript
+var UserSchema = new Schema({
+  username: String,
+  given_name: String,
+  family_name: String,
+  avatar: MediaSchema,
+  email: {
+    type: String,
+    lowercase: true
+  },
+  role: {
+    type: String,
+    default: 'user'
+  },
+  following: [{
+    ref: 'User',
+    type: Schema.ObjectId
+  }],
+  password: String,
+  provider: String,
+  salt: String,
+  facebook: {},
+  twitter: {},
+  google: {},
+  github: {}
+});
+```
+ - GET: '/api/users', auth.hasRole('admin'): Get all users
+ - GET: '/api/users/me', auth.isAuthenticated(): Get self info
+ - GET: '/api/users/:id', auth.isAuthenticated(): Get a specified user info
 
-PUT: '/me', auth.isAuthenticated(): Update self info
-PUT: '/:id/password', auth.isAuthenticated(): Change password
+ - POST: '/api/users' : Create a new user
 
-DELETE: '/:id', auth.hasRole('admin'): Delete a user
+ - PUT: '/me', auth.isAuthenticated(): Update self info
+ - PUT: '/:id/password', auth.isAuthenticated(): Change password
+
+ - DELETE: '/:id', auth.hasRole('admin'): Delete a user
 
 
 #### Post
 
-GET: '/' : Get all posts
-GET: '/mine', auth.isAuthenticated() : Get posts made by self
-GET: '/:id' : Get a specified post
+```javascript
+var PostSchema = new Schema({
+  text: String,
+  image: {
+  	ref: 'Media',
+  	type: Schema.ObjectId
+  },
+  by: {
+  	ref: 'User',
+  	type: Schema.ObjectId
+  },
+  liked_by: [{
+  	ref: 'User',
+  	type: Schema.ObjectId
+  }],
+  created_at: Date
+});
+```
 
-POST: '/', auth.isAuthenticated() : Create a new post
-POST: '/like/:id', auth.isAuthenticated(): Like/dislike a specified post
-
-PUT: '/:id': Update a specified post
-
-DELETE: '/:id' : Delete a specified post
+ - GET: '/' : Get all posts
+ - GET: '/mine', auth.isAuthenticated() : Get posts made by self
+ - GET: '/:id' : Get a specified post
+ 
+ - POST: '/', auth.isAuthenticated() : Create a new post
+ - POST: '/like/:id', auth.isAuthenticated(): Like/dislike a specified post
+ 
+ - PUT: '/:id': Update a specified post
+ 
+ - DELETE: '/:id' : Delete a specified post
 
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.0.0-rc8.
