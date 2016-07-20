@@ -4,6 +4,7 @@ public
 .sass-cache
 .idea
 client/bower_components
+client/app/newpost
 dist
 uploads
 /server/config/local.env.js
