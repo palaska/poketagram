@@ -1,5 +1,57 @@
 # poketagram
 
+## Pages
+
+### Main Page
+This page is the newsfeed similar to Instagram's main page. On top of all the posts, there must be a text input and a file upload input to create a new post.
+
+### My following posts
+This page has the same layout as the main page. The main difference is you only see posts of the people you follow. On top of all the posts, there must be a text input and a file upload input to create a new post.
+
+### Login Page
+Login with email and password.
+
+### Sign up Page
+#### User fields
+- given_name : String
+- family_name : String
+- email : String
+- username : String
+- avatar : MediaSchema
+
+### Profile Page
+This page should include that specific user's info and posts.
+
+
+API Usage
+
+#### User
+GET: '/api/users', auth.hasRole('admin'): Get all users
+GET: '/api/users/me', auth.isAuthenticated(): Get self info
+GET: '/api/users/:id', auth.isAuthenticated(): Get a specified user info
+
+POST: '/api/users' : Create a new user
+
+PUT: '/me', auth.isAuthenticated(): Update self info
+PUT: '/:id/password', auth.isAuthenticated(): Change password
+
+DELETE: '/:id', auth.hasRole('admin'): Delete a user
+
+
+#### Post
+
+GET: '/' : Get all posts
+GET: '/mine', auth.isAuthenticated() : Get posts made by self
+GET: '/:id' : Get a specified post
+
+POST: '/', auth.isAuthenticated() : Create a new post
+POST: '/like/:id', auth.isAuthenticated(): Like/dislike a specified post
+
+PUT: '/:id': Update a specified post
+
+DELETE: '/:id' : Delete a specified post
+
+
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.0.0-rc8.
 
 ## Getting Started
