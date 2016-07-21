@@ -68,7 +68,6 @@ exports.index = function(req, res) {
     .sort(sort)
     .skip(q.skip)
     .limit(q.count)
-    .populate('image')
     .populate('by')
     .populate('liked_by')
     .execAsync()
@@ -83,7 +82,6 @@ exports.index = function(req, res) {
 // Gets a single Post from the DB
 exports.show = function(req, res) {
   Post.findById(req.params.id)
-    .populate('image')
     .populate('by')
     .populate('liked_by')
     .execAsync()
@@ -104,7 +102,6 @@ exports.mine = function(req, res) {
     .sort(sort)
     .skip(q.skip)
     .limit(q.count)
-    .populate('image')
     .populate('by')
     .populate('liked_by')
     .execAsync()
@@ -131,7 +128,6 @@ exports.following = function(req, res) {
     .sort(sort)
     .skip(q.skip)
     .limit(q.count)
-    .populate('image')
     .populate('by')
     .populate('liked_by')
     .execAsync()
