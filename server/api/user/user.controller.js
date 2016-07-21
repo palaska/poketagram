@@ -48,14 +48,26 @@ exports.create = function(req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
-  newUser.saveAsync()
-    .spread(function(user) {
+  if (req.body.avatar) {
+    Media.findOne({ _id: req.body.avatar }).lean().execAsync()
+      .then((media) => {
+        newUser.avatar = _.clone(media);
+        newUser.saveAsync()
+        .spread(function(user) {
+          var token = jwt.sign({ _id: user._id }, config.secrets.session, {
+            expiresInMinutes: 60 * 5
+          });
+          res.json({ token: token });
+        }).catch(validationError(res));
+      }).catch(handleError(res));
+  } else {
+    newUser.saveAsync().spread(function(user) {
       var token = jwt.sign({ _id: user._id }, config.secrets.session, {
         expiresInMinutes: 60 * 5
       });
       res.json({ token: token });
-    })
-    .catch(validationError(res));
+    }).catch(validationError(res));
+  }
 };
 
 /**

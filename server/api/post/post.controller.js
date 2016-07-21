@@ -12,6 +12,7 @@
 var _ = require('lodash');
 var Post = require('./post.model');
 import * as ut from '../../components/utils';
+import Media from '../media/media.model';
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -146,9 +147,13 @@ exports.create = function(req, res) {
   model.created_at = new Date();
   model.by = req.user._id;
 
-  Post.createAsync(req.body)
-    .then(responseWithResult(res, 201))
-    .catch(handleError(res));
+  Media.findOne({ _id: req.body.image }).lean().execAsync()
+        .then((media) => {
+          model.image = _.clone(media);
+          Post.createAsync(model)
+          .then(responseWithResult(res, 201))
+          .catch(handleError(res));
+        }).catch(handleError(res));
 };
 
 // Creates a new Post in the DB
