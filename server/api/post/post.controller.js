@@ -171,7 +171,7 @@ exports.like = function(req, res) {
       }
 
       return p.saveAsync().spread(function(updated) {
-        return updated;
+        return updated.populateAsync('liked_by by');
       });
     })
     .then(responseWithResult(res))
