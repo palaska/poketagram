@@ -156,7 +156,6 @@ exports.create = function(req, res) {
         }).catch(handleError(res));
 };
 
-// Creates a new Post in the DB
 exports.like = function(req, res) {
   const postId = req.params.id;
 
@@ -171,7 +170,7 @@ exports.like = function(req, res) {
         p.liked_by.unshift(req.user._id);
       }
 
-      p.saveAsync().spread(function(updated) {
+      return p.saveAsync().spread(function(updated) {
         return updated;
       });
     })
