@@ -41,6 +41,7 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      'username': this.username,
       'given_name': this.given_name,
       'family_name': this.family_name,
       'avatar': this.avatar,
